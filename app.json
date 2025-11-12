@@ -4,26 +4,44 @@
     "slug": "kree",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-kree.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/logo-kree.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "scripts": {
+      "start": "expo start"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": "./assets/logo-kree.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo-kree.png",
+        "backgroundColor": "#ffffff"
+      }
     },
     "android": {
+      "icon": "./assets/logo-kree.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo-kree.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "splash": {
+        "image": "./assets/logo-kree.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.kree"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/logo-kree.png"
+    },
+    "plugins": [
+      "expo-web-browser"
+    ]
   }
 }
