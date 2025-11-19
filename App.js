@@ -1,39 +1,59 @@
+import React from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-// import Home from './Components/home';
-// import AuthScreen from './Components/AuthScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AppNavigator from './navigation/appNavigator';
-import { initSocket } from './utils/Socket';
 
-const Stack = createNativeStackNavigator();
+// import les providers et les hooks
+import { AuthProvider, useAuth } from './Context/AuthContext';
+import { SocketProvider } from './Context/SocketContext';
+import AppNavigator from './navigation/appNavigator';
+
+// Creation de component interne pour gerer navigation de l'app
+function RootNavigator() {
+  // je veux appeler le hook a l'interieur de mon component
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#ff6300" />
+      </View>
+    );
+  }
+
+  //  AppNavigator  gére l'affichage de AuthScreen ou ClientHomeScreen
+  //  en fonction de 'isAuthenticated'
+  return <AppNavigator isAuthenticated={isAuthenticated} />;
+}
 
 export default function App() {
-  useEffect(() => {
-    // Initialiser le socket seulement une fois au démarrage de l'app
-    initSocket().catch((error) => {
-      console.error("Erreur lors de l'initialisation du socket:", error);
-    });
-
-    // Nettoyer lors du démontage
-    return () => {
-      // Ne pas déconnecter ici car le socket doit rester actif pendant toute la vie de l'app
-      // La déconnexion se fera automatiquement si nécessaire
-    };
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <AppNavigator />
-      <StatusBar style="auto" />
-    </View>
+    // Authentification
+    <AuthProvider>
+      {/*  Socket */}
+      <SocketProvider>
+
+        <NavigationContainer>
+          {/*  navigateur  */}
+          <RootNavigator />
+        </NavigationContainer>
+
+        <StatusBar style="auto" />
+
+        {/* 4. Le composant Toast pour les notifications */}
+        <Toast />
+
+      </SocketProvider>
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff'
+  }
 });

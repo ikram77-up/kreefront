@@ -58,7 +58,7 @@ export default function AgenceFormScreen({ navigation }) {
                 Alert.alert("Error", "You must be logged in to submit an offer.");
                 return;
             }
-            const response = await fetch("http://192.168.1.108:8080/offres", {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/offres`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

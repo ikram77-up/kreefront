@@ -12,16 +12,8 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "scripts": {
-      "start": "expo start"
-    },
     "ios": {
-      "supportsTablet": true,
-      "icon": "./assets/logo-kree.png",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-kree.png",
-        "backgroundColor": "#ffffff"
-      }
+      "supportsTablet": true
     },
     "android": {
       "icon": "./assets/logo-kree.png",

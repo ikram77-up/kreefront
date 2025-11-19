@@ -1,30 +1,55 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "../Components/home";
-import AuthScreen from "../Components/AuthScreen";
+import { useAuth } from "../Context/AuthContext";
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+
+import Home from "../Components/home.js";
+import AuthScreen from "../Components/AuthScreen.js";
 import ClientHomeScreen from "../Components/ClientHomeScreen.js";
-import ClientInterface from "../Components/clientInterface.js";
-import AgenceHomeScreen from "../Components/AgenceHommeScreen.js";
-import AgenceInterface from "../Components/agenceInterface";
-import ChooseEspace from "../Components/chooseEspace";
+import AgenceHomeScreen from "../Components/AgenceHomeScreen.js";
+import AgenceInterface from "../Components/agenceInterface.js";
+import ChooseEspace from "../Components/chooseEspace.js";
 import ClientOffersScreen from "../Components/ClientOffersScreen.js";
+import ProfileScreen from "../Components/ProfileScreen.js";
+import MyCarsScreen from "../Components/MyCarsScreen.js";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
+    // isLoading pour l'écran de chargement
+    const { isLoading } = useAuth();
+
+    //  SI le chargement est en cours, AFFICHER LE CHARGEMENT
+    if (isLoading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#ff6300" />
+            </View>
+        );
+    }
+
+    // (si le chargement de isloading est terminé), AFFICHER LES ÉCRANS
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="AuthScreen" component={AuthScreen} />
-                <Stack.Screen name="chooseEspace" component={ChooseEspace} />
-                <Stack.Screen name="ClientHomeScreen" component={ClientHomeScreen} />
-                <Stack.Screen name="AgenceHomeScreen" component={AgenceHomeScreen} />
-                <Stack.Screen name="clientInterface" component={ClientInterface} />
-                <Stack.Screen name="ClientOffersScreen" component={ClientOffersScreen} />
-                <Stack.Screen name="agenceInterface" component={AgenceInterface} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            {/* Tous les écrans sont maintenant disponibles */}
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="AuthScreen" component={AuthScreen} />
+            <Stack.Screen name="chooseEspace" component={ChooseEspace} />
+            <Stack.Screen name="ClientHomeScreen" component={ClientHomeScreen} />
+            <Stack.Screen name="AgenceHomeScreen" component={AgenceHomeScreen} />
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="ClientOffersScreen" component={ClientOffersScreen} />
+            <Stack.Screen name="agenceInterface" component={AgenceInterface} />
+            <Stack.Screen name="MyCarsScreen" component={MyCarsScreen} />
+        </Stack.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000'
+    }
+});
